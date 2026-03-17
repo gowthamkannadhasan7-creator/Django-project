@@ -1,0 +1,85 @@
+{% extends "maze_game/base.html" %}
+
+{% block title %}Play - Escape the Maze{% endblock %}
+
+{% block extra_css %}
+<!-- We'll keep some game-specific styling here or in style.css -->
+<style>
+  /* Extra inline overrides if necessary, but most is in style.css */
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="game-section">
+  <div class="game-header">
+    <h2 class="section-title">Escape the Maze</h2>
+    <div class="game-stats">
+      <div class="stat-box">
+        <span class="stat-label">Difficulty:</span>
+        <span class="stat-value badge badge-{{ difficulty }}">{{ difficulty|title }}</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Time:</span>
+        <span class="stat-value" id="timer-display">0.00s</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="game-container" id="game-container">
+    <!-- Overlay for Win state -->
+    <div class="win-overlay" id="win-overlay" style="display: none;">
+      <div class="win-dialog">
+        <h3>🎉 You Escaped!</h3>
+        <p>Time: <span id="final-time"></span> seconds</p>
+        
+        <div class="save-score-form" id="save-score-form">
+          <input type="text" id="player-name" placeholder="Enter your name" maxlength="30" class="form-input">
+          <button id="save-score-btn" class="btn btn-primary">Save Score</button>
+        </div>
+        <p id="save-message" class="save-message"></p>
+
+        <div class="win-actions">
+          <button id="play-again-btn" class="btn btn-secondary">Play Again</button>
+          <a id="next-level-btn" href="#" class="btn btn-primary" style="display: none;">Next Level ➡️</a>
+          <a href="/" class="btn btn-outline">Back Home</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- The actual canvas or grid where the maze is drawn -->
+    <canvas id="maze-canvas" width="600" height="600" aria-label="Maze Game Board"></canvas>
+  </div>
+
+  <div class="mobile-controls" id="mobile-controls">
+    <div class="control-row">
+      <button class="d-pad-btn" id="btn-up" aria-label="Up">⬆️</button>
+    </div>
+    <div class="control-row">
+      <button class="d-pad-btn" id="btn-left" aria-label="Left">⬅️</button>
+      <button class="d-pad-btn" id="btn-down" aria-label="Down">⬇️</button>
+      <button class="d-pad-btn" id="btn-right" aria-label="Right">➡️</button>
+    </div>
+  </div>
+
+  <div class="game-footer">
+    <p>Use <strong>Arrow Keys</strong> or <strong>W A S D</strong> to move. The timer starts on your first move!</p>
+    <button id="restart-btn" class="btn btn-outline btn-sm">Restart Level</button>
+  </div>
+
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Pass Django variables into JavaScript namespace -->
+<script>
+  window.GAME_CONFIG = {
+    difficulty: "{{ difficulty }}",
+    rows: {{ grid_size }},
+    cols: {{ grid_size }},
+    saveScoreUrl: "{% url 'maze_game:save_score' %}",
+    csrfToken: "{{ csrf_token }}"
+  };
+</script>
+<!-- Include the external game logic file -->
+<script src="/static/js/game.js"></script>
+{% endblock %}

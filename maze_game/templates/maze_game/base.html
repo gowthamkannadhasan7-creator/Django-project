@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+  base.html — The master layout template.
+  Every other template "extends" this one.
+  Blocks:
+    block title   — page <title>
+    block extra_css  — page-specific CSS
+    block content — main page content
+    block extra_js   — page-specific JS
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Escape the Maze — a thrilling grid-based puzzle game built with Django." />
+  <meta name="theme-color" content="#0f0f1a" />
+
+  <title>{% block title %}Escape the Maze{% endblock %}</title>
+
+  <!-- Google Font: Outfit (modern geometric sans-serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Global stylesheet -->
+  <link rel="stylesheet" href="/static/css/style.css" />
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       NAVIGATION BAR
+  ════════════════════════════════════════════════════ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-container">
+      <!-- Brand / logo -->
+      <a href="/" class="nav-brand" aria-label="Escape the Maze — Home">
+        <span class="nav-icon">🌀</span>
+        <span class="nav-title">Escape the Maze</span>
+      </a>
+
+      <!-- Navigation links -->
+      <ul class="nav-links" role="list">
+        <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
+        <li><a href="/game/?difficulty=easy"   class="nav-link">Easy</a></li>
+        <li><a href="/game/?difficulty=medium" class="nav-link">Medium</a></li>
+        <li><a href="/game/?difficulty=hard"   class="nav-link">Hard</a></li>
+        <li><a href="/admin/" class="nav-link nav-admin" target="_blank" rel="noopener">Admin ↗</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════
+       MAIN CONTENT — filled by child templates
+  ════════════════════════════════════════════════════ -->
+  <main class="main-content" role="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <p>Built with <span aria-label="love">❤️</span> using Django &amp; Vanilla JS</p>
+  </footer>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
