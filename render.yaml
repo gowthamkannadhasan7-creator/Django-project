@@ -1,0 +1,20 @@
+databases:
+  - name: escapemaze-db
+    databaseName: escapemaze
+    user: escapemaze
+
+services:
+  - type: web
+    name: escape-maze
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn escape_maze.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: escapemaze-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
