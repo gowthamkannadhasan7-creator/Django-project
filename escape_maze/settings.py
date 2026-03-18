@@ -16,13 +16,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure--&x8cwhmei)w!6x(&_ti-
 
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS = []
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+ALLOWED_HOSTS = ['*']
 
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
-else:
-    ALLOWED_HOSTS.append('*')
+# This ensures that Django knows when it's being accessed via HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# For Django 4.0+ CSRF protection
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
 
 
 # ─────────────────────────────────────────────────────────────
