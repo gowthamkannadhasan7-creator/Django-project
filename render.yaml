@@ -22,5 +22,5 @@ services:
   - type: web
     name: gowtham-portfolio
     env: static
-    rootDirectory: portfolio
-    staticPublishDir: ./
+    buildCommand: ""
+    staticPublishDir: portfolio
