@@ -18,3 +18,9 @@ services:
         generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
+
+  - type: static
+    name: gowtham-portfolio
+    env: static
+    rootDirectory: portfolio
+    publishPath: ./
